@@ -1,6 +1,6 @@
-var duckdb = require('../../duckdb/tools/nodejs');
-var arrow = require('../../duckdb/tools/nodejs/node_modules/apache-arrow')
-var assert = require('assert');
+const duckdb = require('../../duckdb/tools/nodejs');
+const arrow = require('../../duckdb/tools/nodejs/node_modules/apache-arrow')
+const assert = require('assert');
 
 const build = 'release';
 const extension_path = `../../../build/${build}/extension/arrow/arrow.duckdb_extension`;
@@ -14,15 +14,7 @@ const arrow_ipc_stream = async (conn, sql) => {
 
 // Wrapper for tests
 const arrow_ipc_materialized = async (conn, sql) => {
-    return await new Promise((resolve, reject) => {
-        conn.arrowIPCAll(sql, function (err, result) {
-            if (err) {
-                reject(err)
-            }
-
-            resolve(result);
-        })
-    });
+    return await new Promise((resolve, reject) => conn.arrowIPCAll(sql, (err, result) => err ? reject(err) : resolve(result)));
 }
 
 const to_ipc_functions = {
