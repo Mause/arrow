@@ -1,5 +1,5 @@
-const duckdb = require('../../duckdb/tools/nodejs');
-const arrow = require('../../duckdb/tools/nodejs/node_modules/apache-arrow')
+import * as duckdb from '../../duckdb/tools/nodejs';
+import * as arrow from '../../duckdb/tools/nodejs/node_modules/apache-arrow';
 const assert = require('assert');
 
 const build = 'release';
@@ -23,8 +23,8 @@ const to_ipc_functions = {
 }
 
 describe(`Arrow IPC Demo`, () => {
-    let db;
-    let conn;
+    let db: duckdb.Database;
+    let conn: duckdb.Connection;
     before((done) => {
         db = new duckdb.Database(':memory:', {"allow_unsigned_extensions": "true"});
         conn = new duckdb.Connection(db);
@@ -90,8 +90,8 @@ for (const [name, fun] of Object.entries(to_ipc_functions)) {
     describe(`DuckDB <-> Arrow IPC (${name})`, () => {
         const total = 1000;
 
-        let db;
-        let conn;
+        let db: duckdb.Database;
+        let conn: duckdb.Connection;
         before((done) => {
             db = new duckdb.Database(':memory:', {"allow_unsigned_extensions": "true"});
             conn = new duckdb.Connection(db);
@@ -193,8 +193,8 @@ describe('[Benchmark] Arrow IPC Single Int Column (50M tuples)',() => {
     // Config
     const column_size = 50*1000*1000;
 
-    let db;
-    let conn;
+    let db: duckdb.Database;
+    let conn: duckdb.Connection;
 
     before((done) => {
         db = new duckdb.Database(':memory:',  {"allow_unsigned_extensions":"true"});
@@ -231,9 +231,9 @@ describe('[Benchmark] Arrow IPC Single Int Column (50M tuples)',() => {
 });
 
 describe('Buffer registration',() => {
-    let db;
-    let conn1;
-    let conn2;
+    let db: duckdb.Database;
+    let conn1: duckdb.Connection;
+    let conn2: duckdb.Connection;
 
     before((done) => {
         db = new duckdb.Database(':memory:',  {"allow_unsigned_extensions":"true"});
@@ -356,8 +356,8 @@ describe('[Benchmark] Arrow IPC TPC-H lineitem.parquet', () => {
     const sql = "SELECT sum(l_extendedprice * l_discount) AS revenue FROM lineitem WHERE l_shipdate >= CAST('1994-01-01' AS date) AND l_shipdate < CAST('1995-01-01' AS date) AND l_discount BETWEEN 0.05 AND 0.07 AND l_quantity < 24"
     const answer = [{revenue: 1193053.2253}];
 
-	let db;
-	let conn;
+    let db: duckdb.Database;
+    let conn: duckdb.Connection;
 
     before((done) => {
         db = new duckdb.Database(':memory:',  {"allow_unsigned_extensions":"true"});
@@ -447,8 +447,8 @@ for (const [name, fun] of Object.entries(to_ipc_functions)) {
             "SELECT sum(l_extendedprice * l_discount) AS revenue FROM table_name WHERE l_shipdate >= CAST('1994-01-01' AS date) AND l_shipdate < CAST('1995-01-01' AS date) AND l_discount BETWEEN 0.05 AND 0.07 AND l_quantity < 24"
         ];
 
-        let db;
-        let conn;
+        let db: duckdb.Database;
+        let conn: duckdb.Connection;
         before((done) => {
             db = new duckdb.Database(':memory:', {"allow_unsigned_extensions": "true"});
             conn = new duckdb.Connection(db);
